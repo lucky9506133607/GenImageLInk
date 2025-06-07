@@ -17,7 +17,7 @@ cloudinary.config(
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 driver.get("https://example.com")
 
-screenshot_file = "screenshot.png"
+screenshot_file = "screenshot1.png"
 driver.save_screenshot(screenshot_file)
 driver.quit()
 
