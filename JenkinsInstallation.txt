@@ -1,0 +1,12 @@
+Jenskins Installation
+===============================
+
+Jenkins - CI tool
+
+https://www.jenkins.io/download/
+
+How to run jenkins.war file
+
+Go to jenkins location & run below command.
+
+Java -jar jenkins.war
