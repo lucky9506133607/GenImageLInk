@@ -8,30 +8,53 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
+from Record_Video import Desktop_Recording
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+from Screenshot import Screenshot
 
 # === 1. Take screenshot using Selenium ===
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-#driver.get("https://pagespeed.web.dev/")
-driver.get("https://www.drlinkcheck.com/")
+driver.get("https://pagespeed.web.dev/")
 driver.fullscreen_window()
-driver.find_element(By.XPATH, "//*[@id='url']").send_keys("https://www.e2msolutions.com/")
-driver.find_element(By.XPATH,"/html/body/div[2]/div/div/div/div[1]/div/div/div").click()
-print("Current URL:", driver.current_url)
-time.sleep(5)
-#driver.find_element(By.XPATH, '//*[@id="desktop_tab"]').click()
-driver(driver, 30).until(lambda d: d.execute_script("return document.readyState") == "complete")
+time.sleep(10)
+driver.find_element(By.CSS_SELECTOR, "input[placeholder='Enter a web page URL']").send_keys("https://www.e2msolutions.com/")
+driver.find_element(By.XPATH,"//button[@jsname='O2CIGd']").click()
 print("Current URL:", driver.current_url)
 
-screenshot_file = "..\\Assets\\E2MScreenshot.png"
-driver.save_screenshot(screenshot_file)
+# Wait for the results to load by waiting for a specific element that appears after analysis
+try:
+    # Wait up to 60 seconds for the results element to appear (adjust selector as needed)
+    WebDriverWait(driver, 60).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, "div[class*='lh-gauge__percentage']"))
+    )
+    print("PageSpeed results loaded!")
+except Exception as e:
+    print("Timed out waiting for results to load:", e)
+
+print("Current URL:", driver.current_url)
+
+time.sleep(1)
+recording = Desktop_Recording()
+
+def wait_for_progress_to_finish(driver, timeout=120):
+    try:
+        WebDriverWait(driver, timeout).until(
+            lambda d: len(d.find_elements(By.CSS_SELECTOR, '[data-progressvalue]')) == 0
+        )
+        print("Progress finished, attribute is gone!")
+    except TimeoutException:
+        print("Timed out waiting for progress to finish.")
+
+wait_for_progress_to_finish(driver)
+recording.Record(driver)  # pass the driver you already have open
+
+capture = Screenshot()
+capture.capture_screenshot(driver)
 driver.quit()
 
-# === 2. Upload the screenshot to Cloudinary ===
-response = cloudinary.uploader.upload(screenshot_file)
 
-# === 3. Get the URL of the uploaded image ===
-if 'secure_url' in response:
-    print("✅ Screenshot uploaded successfully!")
-    print("🌐 Access it here:", response['secure_url'])
-else:
-    print("❌ Upload failed:", response)
+
+
+
