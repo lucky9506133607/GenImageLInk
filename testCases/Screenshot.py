@@ -9,13 +9,6 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 
-# Cloudinary credentials (replace these with your credentials)
-cloudinary.config(
-    cloud_name="du5exig8b",  # Replace with your Cloudinary Cloud Name
-    api_key="276856828912681",        # Replace with your Cloudinary API Key
-    api_secret="XqgsqnD_XyLm1knyl1h-jGQKeCk"   # Replace with your Cloudinary API Secret
-)
-
 # === 1. Take screenshot using Selenium ===
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 #driver.get("https://pagespeed.web.dev/")
