@@ -18,14 +18,15 @@ cloudinary.config(
 
 # === 1. Take screenshot using Selenium ===
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-driver.get("https://pagespeed.web.dev/")
+#driver.get("https://pagespeed.web.dev/")
+driver.get("https://www.drlinkcheck.com/")
 driver.fullscreen_window()
-driver.find_element(By.XPATH, "//*[@id='i2']").send_keys("https://www.e2msolutions.com/")
-driver.find_element(By.XPATH,"//*[@id='yDmH0d']/c-wiz/div[2]/div/div[2]/form/div[2]/button").click()
+driver.find_element(By.XPATH, "//*[@id='url']").send_keys("https://www.e2msolutions.com/")
+driver.find_element(By.XPATH,"/html/body/div[2]/div/div/div/div[1]/div/div/div").click()
 print("Current URL:", driver.current_url)
 time.sleep(5)
-driver.find_element(By.XPATH, '//*[@id="desktop_tab"]').click()
-time.sleep(10)
+#driver.find_element(By.XPATH, '//*[@id="desktop_tab"]').click()
+driver(driver, 30).until(lambda d: d.execute_script("return document.readyState") == "complete")
 print("Current URL:", driver.current_url)
 
 screenshot_file = "..\\Assets\\E2MScreenshot.png"
