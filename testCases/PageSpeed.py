@@ -1,8 +1,4 @@
 import time
-
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
 from selenium import webdriver
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -36,7 +32,7 @@ except Exception as e:
 print("Current URL:", driver.current_url)
 
 time.sleep(1)
-recording = Desktop_Recording()
+#recording = Desktop_Recording() #Recording class call
 
 def wait_for_progress_to_finish(driver, timeout=120):
     try:
@@ -48,10 +44,10 @@ def wait_for_progress_to_finish(driver, timeout=120):
         print("Timed out waiting for progress to finish.")
 
 wait_for_progress_to_finish(driver)
-recording.Record(driver)  # pass the driver you already have open
+#recording.Record(driver)  # pass the driver you already have open
 
 capture = Screenshot()
-capture.capture_screenshot(driver)
+capture.capture_screenshot(driver, "Pagespeed")
 driver.quit()
 
 

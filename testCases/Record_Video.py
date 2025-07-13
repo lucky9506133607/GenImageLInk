@@ -1,10 +1,12 @@
+import cv2
+import numpy as np
+import time
+import mss
+
+
+
 class Desktop_Recording:
     def Record(self, driver, output_file="../Assets/E2M.mp4"):
-        import cv2
-        import numpy as np
-        import time
-        import mss
-
         monitor = {
             "top": 0,
             "left": 0,
